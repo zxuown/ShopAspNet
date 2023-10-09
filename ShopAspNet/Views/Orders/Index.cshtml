@@ -1,0 +1,71 @@
+﻿@using ShopAspNet.Models;
+@*
+
+*@
+@{
+}
+@{
+    ViewData["Title"] = "Admin Page";
+    Layout = "_AdminLayout";
+}
+@model List<Order>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h1>Orders</h1>
+            <div>
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Full Name</th>
+                            <th>Country</th>
+                            <th>City</th>
+                            <th>Phone</th>
+                            <th>PostCode</th>
+                            <th>Status</th>
+                            <th>Uid</th>
+                            <th>OrdersProducts</th> 
+                           <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td>@order.Id</td>
+                                <td>@order.FirstName @order.LastName</td>
+                                <td>@order.Country</td>
+                                <td>@order.City</td>
+                                <td>@order.Phone</td>
+                                <td>@order.PostCode</td>
+                                <td>@order.Status</td>
+                                <td>@order.Uid</td>
+                                <td>
+                                    @foreach (var item in @order.Products)
+                                    {
+                                        <p></p>
+                                        <div>@item.Product.Title</div>
+                                        <p></p>
+                                    }
+                                </td>
+                               
+                                <td>
+                                    <div class="d-flex">
+                                        <a class="btn btn-outline-primary" href="/Orders/Edit/@order.Id">Edit</a>
+                                        <form method="post" action="/Orders/Delete/@order.Id">
+                                            <button class="btn btn-outline-warning">Delete</button>
+                                        </form>
+                                    </div>
+
+                                </td>
+                             
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

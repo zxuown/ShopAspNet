@@ -1,0 +1,81 @@
+﻿@using ShopAspNet.Models;
+
+@*
+
+*@
+@{
+    ViewData["Title"] = "Edit order";
+    Layout = "_AdminLayout";
+    var statuses = Enum.GetValues(typeof(Order.OrderStatus)).Cast<Order.OrderStatus>()
+    .Select(x=>new SelectListItem
+    {
+        Value = ((int)x).ToString(),
+        Text = x.ToString(),
+    });
+}
+@model Order
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="card-title">Create Product</h1>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.FirstName, new {@class = "form-label"})
+                            @Html.TextBoxFor(m => m.FirstName, new {@class = "form-control", placeholder = "Input firstName..."})
+                            @Html.ValidationMessageFor(m => m.FirstName)
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.LastName, new {@class = "form-label"})
+                            @Html.TextAreaFor(m => m.LastName, new {@class = "form-control", placeholder = "Input LastName..."})
+                            @Html.ValidationMessageFor(m => m.LastName)
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Country, new {@class = "form-label"})
+                            @Html.TextBoxFor(m => m.Country, new {@class = "form-control", min=0.01, step=0.01, placeholder = "Input Country..."})
+                            @Html.ValidationMessageFor(m => m.Country)
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.City, new {@class = "form-label"})
+                            @Html.TextBoxFor(m => m.City, new {@class = "form-control", min=0.01, step=0.01, placeholder = "Input City..."})
+                            @Html.ValidationMessageFor(m => m.City)
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.StreetAdress, new {@class = "form-label"})
+                            @Html.TextBoxFor(m => m.StreetAdress, new {@class = "form-control", min=0.01, step=0.01, placeholder = "Input StreetAdress..."})
+                            @Html.ValidationMessageFor(m => m.StreetAdress)
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.PostCode, new {@class = "form-label"})
+                            @Html.TextBoxFor(m => m.PostCode, new {@class = "form-control", min=0.01, step=0.01, placeholder = "Input PostCode..."})
+                            @Html.ValidationMessageFor(m => m.PostCode)
+                        </div>
+                        
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Phone, new {@class = "form-label"})
+                            @Html.TextBoxFor(m => m.Phone, new {@class = "form-control", min=0.01, step=0.01, placeholder = "Input Phone..."})
+                            @Html.ValidationMessageFor(m => m.Phone)
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Status, new {@class = "form-label"})
+                            @Html.DropDownListFor(m => m.Status, statuses, new {@class = "form-control"})
+                            @Html.ValidationMessageFor(m => m.Status)
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <a href="/Orders/Index" class="btn btn-outline-info">Return</a>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

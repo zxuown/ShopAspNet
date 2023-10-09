@@ -1,0 +1,129 @@
+﻿@using ShopAspNet.Models;
+@*
+    
+*@
+@{
+   
+}
+@model Product
+@{
+
+    Layout = "_ShopLayout";
+    var sameProducts = ViewData["SimilarProducts"] as List<Product>;
+}
+    <!-- Product Page Section Beign -->
+    <section class="product-page">
+        <div class="container">
+            <div class="product-control">
+                <a href="#">Previous</a>
+                <a href="#">Next</a>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="product-slider owl-carousel">
+                        <div class="product-img">
+                            <figure>
+                                <img src="@Model.MainImage.Url()" alt="">
+                                <div class="p-status">new</div>
+                            </figure>
+                        </div>
+                        <div class="product-img">
+                            <figure>
+                                <img src="@Model.MainImage.Url()" alt="">
+                                <div class="p-status">new</div>
+                            </figure>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="product-content">
+                        <h2>@Model.Title</h2>
+                        <div class="pc-meta">
+                            <h5>@Model.Price</h5>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </div>
+                        <p>@Model.Description</p>
+                        <ul class="tags">
+                            <li><span>Category :</span> @Model.Category.Title</li>
+                            @*<li><span>Tags :</span> man, shirt, dotted, elegant, cool</li>*@
+                        </ul>
+                        <div class="product-quantity">
+                            <div class="pro-qty">
+                                <input id="quantity" type="text" value="1">
+                            </div>
+                        </div>
+                        <a data-id="@Model.Id" class="primary-btn pc-btn add-cart">Add to cart</a>
+                        <ul class="p-info">
+                            <li>Product Information</li>
+                            <li>Reviews</li>
+                            <li>Product Care</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Page Section End -->
+
+    <!-- Related Product Section Begin -->
+    <section class="related-product spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-title">
+                        <h2>Related Products</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            @foreach (var item in sameProducts)
+            {
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-product-item">
+                        <figure>
+                                <a href="#"><img src="@item.MainImage.Url()" alt=""></a>
+                            <div class="p-status">new</div>
+                        </figure>
+                        <div class="product-text">
+                            <h6>@item.Title</h6>
+                            <p>@item.Price</p>
+                        </div>
+                    </div>
+                </div>
+            }
+                
+
+            </div>
+        </div>
+    </section>
+    <!-- Related Product Section End -->
+@section Scripts{
+    <script>
+        $("a.add-cart").on("click",e=>{
+            e.preventDefault()
+            let a =$(e.target)
+            let productId = a.data("id")
+            let quantity = $("#quantity").val()
+            console.log(productId, quantity)
+            fetch(`/Cart/Add`, {
+                    method: "Post",
+                    headers: {
+                        'Content-Type': "application/json"
+                    },
+                    body: JSON.stringify({
+                        ProductId: productId,
+                        Quantity: quantity,
+                    })
+                    }).then(r=> r.json()).then(data=> {
+                           $("#cart-product-count").text(data.cartProductCount)
+                    })        
+        })
+    </script>
+}
